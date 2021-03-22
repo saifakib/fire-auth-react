@@ -1,29 +1,40 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
-// import header from '../../images/header.png';
-// import logo from '../../images/icons/logo.png';
+import { useContext } from 'react'
+import { UserContext } from '../../App'
 
 const Header = () => {
+
+    const { loggedInUser, setLoggedInUser } = useContext(UserContext)
+
     return (
         <div className="header">
             <nav className="nav">
                 <ul>
                     <li>
-                        <img className="logo" alt=""/>
+                        <img className="logo" alt="" />
                     </li>
                     <li>
-                        <Link to="/home">Home</Link>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link  to="/book">Destination</Link>
+                        <Link to="/destination">Destination</Link>
                     </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    
+                    {loggedInUser.isSignedIn ? (
+                        <li>
+                            <Link onClick={() => setLoggedInUser({})}>Logout</Link>
+                            <Link to="/" className="mx-4">{loggedInUser.name}</Link>
+                        </li>
+                    ) : (
+                            <li>
+                                <Link to="/login">Login</Link>
+                            </li>
+                        )}
+
+
                 </ul>
             </nav>
-            
+
 
         </div>
     );

@@ -2,9 +2,9 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
-import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card'
+import { useState, useContext } from 'react';
+import { useHistory, useLocation } from 'react-router-dom'
+import {UserContext} from '../../App'
 
 
 firebase.initializeApp(firebaseConfig)
@@ -19,6 +19,11 @@ function Login() {
         photo: ''
     })
 
+    const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+    const history = useHistory();
+    const location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
     const provider = new firebase.auth.GoogleAuthProvider();
     var gitProvider = new firebase.auth.GithubAuthProvider();
     const handleSignIn = () => {
@@ -32,6 +37,8 @@ function Login() {
                     photo: photoURL
                 }
                 setUser(signedInUser)
+                setLoggedInUser(signedInUser)
+                history.replace(from);
                 console.log(displayName, photoURL, email)
             })
             .catch(err => {
@@ -52,7 +59,7 @@ function Login() {
                     success: false
                 }
                 setUser(signedOutUser)
-
+                setLoggedInUser(signedOutUser)
             })
             .catch(err => {
 

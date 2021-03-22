@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import data from './../fakedata/data.json'
 import Ride from '../RIde/Ride';
 
